@@ -197,6 +197,10 @@ class KlotskiViewModel(
         _uiState.update {
             it.copy(
                 screen = Screen.SOLVED,
+                // The board stays on screen under the panel, but nothing is
+                // picked any more: a gold ring around a block on a finished
+                // puzzle reads as a move still waiting to be made.
+                selected = null,
                 elapsed = elapsed,
                 best = outcome.best,
                 isRecord = outcome.isRecord,
