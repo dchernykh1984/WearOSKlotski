@@ -54,7 +54,12 @@ fun KlotskiApp(viewModel: KlotskiViewModel) {
 
     val layout = remember(screenSize) { screenLayout(screenSize) }
 
-    KeepScreenOnWhile(state.screen == Screen.PLAYING || state.screen == Screen.PAUSED)
+    // Whenever there is a board on screen. A puzzle is solved in long silences
+    // with nothing touching the watch, the menu is paused over a board somebody is
+    // still looking at, and the solved screen is a result worth reading. The start
+    // menu and the records are not: they are a tap and a glance, and the watch's
+    // own timeout is right for them.
+    KeepScreenOnWhile(state.game != null)
 
     // Wear OS reads a swipe from the left edge as Back. During a game that must not
     // leave the app - sliding a block right would end the session - so it opens the
