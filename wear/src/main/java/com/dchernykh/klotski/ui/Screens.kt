@@ -123,7 +123,8 @@ private fun RecordsScreen(
     val best = state.recordsBest
 
     MenuLine(boxes.above, ColorDim, levelName(previousLevel(state.recordsId).id))
-    MenuLine(boxes.title, ColorText, levelName(level.id))
+    // The board being read is the accent; the two hung either side of it are not.
+    MenuLine(boxes.title, ColorAccent, levelName(level.id))
     MenuLine(boxes.rows[0], ColorText, stringResource(R.string.moves_value, movesOrNone(best)))
     MenuLine(boxes.rows[1], ColorText, stringResource(R.string.time_value, elapsed(best.time)))
     MenuLine(boxes.rows[2], ColorMuted, stringResource(R.string.minimum_value, level.par))
