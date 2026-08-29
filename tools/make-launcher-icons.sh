@@ -28,8 +28,11 @@ res="$2"
 background="$3"
 keep_disc="${4:-}"
 
-# 72dp of 108dp: the circle every launcher mask is guaranteed to show.
-safe=0.6667
+# 72dp of 108dp: the circle every launcher mask is guaranteed to show. As a
+# fraction rather than a decimal so the arithmetic is the shell's own and the
+# script needs nothing installed to do it.
+SAFE_NUMERATOR=2
+SAFE_DENOMINATOR=3
 
 adaptive="108 mdpi 162 hdpi 216 xhdpi 324 xxhdpi 432 xxxhdpi"
 
@@ -43,8 +46,12 @@ adaptive="108 mdpi 162 hdpi 216 xhdpi 324 xxhdpi 432 xxxhdpi"
 # macOS ships bash 3.2, where an empty array under `set -u` is an error rather
 # than nothing at all, so the two cases are two commands and not one command with
 # a list of arguments that is sometimes empty.
-peeled="$(mktemp -t icon-peeled).png"
-trap 'rm -f "$peeled"' EXIT
+# A directory, not `mktemp -t x` with .png glued on the end: that leaves the file
+# mktemp actually created sitting in /tmp on every run, because the name being
+# cleaned up is not the name that was made.
+work="$(mktemp -d)"
+trap 'rm -rf "$work"' EXIT
+peeled="$work/peeled.png"
 if [ "$keep_disc" = "--keep-disc" ]; then
   cp "$src" "$peeled"
 else
@@ -55,7 +62,7 @@ fi
 set -- $adaptive
 while [ "$#" -gt 0 ]; do
   size="$1"; density="$2"; shift 2
-  inner=$(printf '%.0f' "$(echo "$size * $safe" | bc -l)")
+  inner=$(( size * SAFE_NUMERATOR / SAFE_DENOMINATOR ))
   mkdir -p "$res/mipmap-$density"
   # -strip, because ImageMagick otherwise stamps the creation date into every
   # PNG it writes: without it, re-running this on an unchanged icon rewrites five
@@ -67,6 +74,14 @@ while [ "$#" -gt 0 ]; do
     -strip \
     "$res/mipmap-$density/ic_launcher_foreground.png"
 done
+
+# values/colors.xml is written whole, so it must hold nothing but the launcher
+# background. If the app ever needs a second colour there, that colour belongs in
+# its own file rather than in the one this script owns.
+if [ -f "$res/values/colors.xml" ] && ! grep -q 'ic_launcher_background' "$res/values/colors.xml"; then
+  echo "$res/values/colors.xml holds something this script did not write; refusing to overwrite it." >&2
+  exit 1
+fi
 
 mkdir -p "$res/mipmap-anydpi" "$res/values"
 cat > "$res/mipmap-anydpi/ic_launcher.xml" <<XML
