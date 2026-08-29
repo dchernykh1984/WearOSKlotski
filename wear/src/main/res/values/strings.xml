@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- The name the launcher shows. Deliberately not translated: it is the name
+         the app is published under, the same one the Zepp OS original carries.
+         Marking it so also keeps Android Lint's MissingTranslation check - an
+         error in this module - from demanding it in every values-<code> table. -->
+    <string name="app_name" translatable="false">Block Escape</string>
+</resources>
