@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="level_number">Nível %1$d</string>
+    <string name="moves_value">Lances %1$s</string>
+    <string name="time_value">Tempo %1$s</string>
+    <string name="minimum_value">Mínimo %1$d</string>
+    <string name="play">Jogar</string>
+    <string name="resume">Seguir</string>
+    <string name="restart">Recomeçar</string>
+    <string name="levels">Níveis</string>
+    <string name="solved">Resolvido!</string>
+    <string name="new_best">Recorde!</string>
+    <string name="next">Próximo</string>
+    <string name="again">De novo</string>
+    <string name="back">Voltar</string>
+    <string name="records">Recordes</string>
+    <string name="hint">Toque e deslize</string>
+    <string name="placeholder">-</string>
+    <string name="undo">Desfazer</string>
+    <string name="menu">Menu</string>
+</resources>

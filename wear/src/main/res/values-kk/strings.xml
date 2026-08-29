@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="level_number">Деңгей %1$d</string>
+    <string name="moves_value">Жүріс %1$s</string>
+    <string name="time_value">Уақыт %1$s</string>
+    <string name="minimum_value">Ең аз %1$d</string>
+    <string name="play">Ойнау</string>
+    <string name="resume">Жалғастыру</string>
+    <string name="restart">Қайта</string>
+    <string name="levels">Деңгейлер</string>
+    <string name="solved">Шешілді!</string>
+    <string name="new_best">Рекорд!</string>
+    <string name="next">Келесі</string>
+    <string name="again">Тағы</string>
+    <string name="back">Артқа</string>
+    <string name="records">Рекордтар</string>
+    <string name="hint">Басып сырғытыңыз</string>
+    <string name="placeholder">-</string>
+    <string name="undo">Болдырмау</string>
+    <string name="menu">Мәзір</string>
+</resources>
