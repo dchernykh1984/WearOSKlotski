@@ -18,4 +18,5 @@
     <string name="placeholder">-</string>
     <string name="undo">Болдырмау</string>
     <string name="menu">Мәзір</string>
+    <string name="block_at">Блок %1$d, %2$d</string>
 </resources>
