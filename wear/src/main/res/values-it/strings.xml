@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="level_number">Livello %1$d</string>
+    <string name="moves_value">Mosse %1$s</string>
+    <string name="time_value">Tempo %1$s</string>
+    <string name="minimum_value">Minimo %1$d</string>
+    <string name="play">Gioca</string>
+    <string name="resume">Riprendi</string>
+    <string name="restart">Ricomincia</string>
+    <string name="levels">Livelli</string>
+    <string name="solved">Risolto!</string>
+    <string name="new_best">Record!</string>
+    <string name="next">Avanti</string>
+    <string name="again">Ancora</string>
+    <string name="back">Indietro</string>
+    <string name="records">Record</string>
+    <string name="hint">Tocca e scorri</string>
+    <string name="placeholder">-</string>
+    <string name="undo">Annulla</string>
+    <string name="menu">Menu</string>
+</resources>

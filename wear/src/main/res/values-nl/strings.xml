@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="level_number">Level %1$d</string>
+    <string name="moves_value">Zetten %1$s</string>
+    <string name="time_value">Tijd %1$s</string>
+    <string name="minimum_value">Minimum %1$d</string>
+    <string name="play">Spelen</string>
+    <string name="resume">Verder</string>
+    <string name="restart">Opnieuw</string>
+    <string name="levels">Levels</string>
+    <string name="solved">Opgelost!</string>
+    <string name="new_best">Record!</string>
+    <string name="next">Volgende</string>
+    <string name="again">Nog eens</string>
+    <string name="back">Terug</string>
+    <string name="records">Records</string>
+    <string name="hint">Tik en veeg</string>
+    <string name="placeholder">-</string>
+    <string name="undo">Ongedaan</string>
+    <string name="menu">Menu</string>
+</resources>
