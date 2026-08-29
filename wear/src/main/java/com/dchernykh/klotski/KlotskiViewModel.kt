@@ -179,10 +179,15 @@ class KlotskiViewModel(
     }
 
     fun showRecords(levelId: Int) {
-        viewModelScope.launch {
-            val best = store.readBest(levelId)
-            _uiState.update { it.copy(screen = Screen.RECORDS, recordsId = levelId, recordsBest = best) }
-        }
+        val previous = settings
+        settings =
+            viewModelScope.launch {
+                previous.join()
+                val best = store.readBest(levelId)
+                _uiState.update {
+                    it.copy(screen = Screen.RECORDS, recordsId = levelId, recordsBest = best)
+                }
+            }
     }
 
     fun recordsNext() = showRecords(nextLevel(_uiState.value.recordsId).id)
@@ -224,12 +229,18 @@ class KlotskiViewModel(
             )
         }
         if (!outcome.isRecord) return
-        viewModelScope.launch {
-            // Not cancellable. The app being closed the instant a puzzle falls is
-            // exactly when a record is worth keeping, and a write abandoned half
-            // way through loses it for good.
-            withContext(NonCancellable) { store.writeBest(state.levelId, outcome.best) }
-        }
+        // Through the same queue as everything else that touches storage, so that
+        // opening the records straight after a record shows the record and not the
+        // value it just replaced.
+        val previous = settings
+        settings =
+            viewModelScope.launch {
+                previous.join()
+                // Not cancellable. The app being closed the instant a puzzle falls
+                // is exactly when a record is worth keeping, and a write abandoned
+                // half way through loses it for good.
+                withContext(NonCancellable) { store.writeBest(state.levelId, outcome.best) }
+            }
     }
 
     companion object {
