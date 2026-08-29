@@ -225,14 +225,15 @@ private fun Blocks(
 ) {
     val game = state.game ?: return
     val portraits = remember(game.level.id) { portraitsFor(game.blocks) }
-    game.blocks.forEachIndexed { id, _ ->
+    game.blocks.forEachIndexed { id, block ->
         BlockTile(
             layout = layout,
             game = game,
             id = id,
             portrait = portraits[id],
             onClick = { viewModel.select(id) },
-            label = stringResource(R.string.level_number, game.level.id),
+            // Counted from one, because that is how a person reads a grid.
+            label = stringResource(R.string.block_at, block.x + 1, block.y + 1),
         )
     }
 }
