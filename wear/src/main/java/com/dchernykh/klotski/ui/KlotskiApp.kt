@@ -26,7 +26,6 @@ import com.dchernykh.klotski.KlotskiViewModel
 import com.dchernykh.klotski.R
 import com.dchernykh.klotski.Screen
 import com.dchernykh.klotski.game.Direction
-import com.dchernykh.klotski.game.blockAt
 import com.dchernykh.klotski.layout.ScreenLayout
 import com.dchernykh.klotski.layout.cellAt
 import com.dchernykh.klotski.layout.screenLayout
@@ -71,7 +70,7 @@ fun KlotskiApp(viewModel: KlotskiViewModel) {
                     .fillMaxSize()
                     .background(ColorBackground)
                     .swipes(state.screen) { onSwipe(state.screen, it, viewModel) }
-                    .taps(layout, state, viewModel),
+                    .taps(layout, state.screen, viewModel),
         ) {
             TrayCanvas(layout, state.game, state.selected, Modifier.fillMaxSize())
             Blocks(layout, state, viewModel)
@@ -190,17 +189,14 @@ private fun Modifier.swipes(
  */
 private fun Modifier.taps(
     layout: ScreenLayout,
-    state: KlotskiUiState,
+    screen: Screen,
     viewModel: KlotskiViewModel,
 ): Modifier =
-    pointerInput(layout, state.screen, state.game) {
-        if (state.screen != Screen.PLAYING) return@pointerInput
+    pointerInput(layout, screen) {
+        if (screen != Screen.PLAYING) return@pointerInput
         detectTapGestures { offset ->
-            val game = state.game ?: return@detectTapGestures
-            val cell = cellAt(layout.board, offset.x.toInt(), offset.y.toInt())
-            if (cell != null) {
-                game.blockAt(cell.first, cell.second)?.let(viewModel::select)
-            }
+            val cell = cellAt(layout.board, offset.x.toInt(), offset.y.toInt()) ?: return@detectTapGestures
+            viewModel.selectAt(cell.first, cell.second)
         }
     }
 

@@ -9,6 +9,7 @@ import com.dchernykh.klotski.game.FIRST_LEVEL
 import com.dchernykh.klotski.game.GameState
 import com.dchernykh.klotski.game.Result
 import com.dchernykh.klotski.game.UNKNOWN
+import com.dchernykh.klotski.game.blockAt
 import com.dchernykh.klotski.game.elapsedBetween
 import com.dchernykh.klotski.game.levelById
 import com.dchernykh.klotski.game.moved
@@ -118,6 +119,22 @@ class KlotskiViewModel(
     fun select(id: Int) {
         if (_uiState.value.screen != Screen.PLAYING) return
         _uiState.update { it.copy(selected = id) }
+    }
+
+    /**
+     * Pick whatever block is standing on a cell, and do nothing at all when that
+     * cell is free.
+     *
+     * The lookup is here rather than on the screen because the position is here:
+     * a tap handler that had to be handed the board would have to be rebuilt after
+     * every move, and a handler rebuilt mid-gesture is a tap that goes nowhere.
+     */
+    fun selectAt(
+        column: Int,
+        row: Int,
+    ) {
+        val game = _uiState.value.game ?: return
+        game.blockAt(column, row)?.let(::select)
     }
 
     /** Slide the selected block one cell. A move the rules refuse does nothing. */
