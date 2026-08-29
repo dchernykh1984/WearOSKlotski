@@ -72,8 +72,14 @@ fun KlotskiApp(viewModel: KlotskiViewModel) {
                     .swipes(state.screen) { onSwipe(state.screen, it, viewModel) }
                     .taps(layout, state.screen, viewModel),
         ) {
-            TrayCanvas(layout, state.game, state.selected, Modifier.fillMaxSize())
-            Blocks(layout, state, viewModel)
+            // Every screen but the records is played or paused over the tray, so
+            // the tray stays behind them. The records are read rather than played
+            // - they use the whole round face, and a board behind them would be
+            // one more thing between the eye and three numbers.
+            if (state.screen != Screen.RECORDS) {
+                TrayCanvas(layout, state.game, state.selected, Modifier.fillMaxSize())
+                Blocks(layout, state, viewModel)
+            }
 
             if (state.screen == Screen.PLAYING) {
                 Counter(layout, state)
