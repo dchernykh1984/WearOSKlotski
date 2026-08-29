@@ -314,6 +314,25 @@ class KlotskiViewModelTest {
         }
 
     @Test
+    fun `shows a record straight after setting one`() =
+        runTest(dispatcher) {
+            val store = FakeRecordStore(level = 1)
+            val model = viewModel(store)
+            advanceUntilIdle()
+            model.startGame()
+            clock.now += 8_000
+            solve(model)
+
+            // No idling in between: the read has to queue behind the write, or the
+            // records show the value the record just replaced.
+            model.showRecords(1)
+            advanceUntilIdle()
+
+            assertEquals(LEVELS.first().par, model.uiState.value.recordsBest.moves)
+            assertEquals(8_000L, model.uiState.value.recordsBest.time)
+        }
+
+    @Test
     fun `pages the records in both directions`() =
         runTest(dispatcher) {
             val store = FakeRecordStore(level = 1)
