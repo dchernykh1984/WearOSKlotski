@@ -222,6 +222,49 @@ class KlotskiViewModelTest {
         }
 
     @Test
+    fun `times a restarted board as the new game it is`() =
+        runTest(dispatcher) {
+            val model = viewModel()
+            advanceUntilIdle()
+            model.startGame()
+
+            clock.now += 5_000
+            model.restart()
+            clock.now += 2_000
+            solve(model)
+            advanceUntilIdle()
+
+            // From the restart, not from the first deal: a board put back the way
+            // it started is a new game.
+            assertEquals(2_000L, model.uiState.value.elapsed)
+        }
+
+    @Test
+    fun `picks the block standing on the cell that was tapped`() =
+        runTest(dispatcher) {
+            val model = viewModel()
+            advanceUntilIdle()
+            model.startGame()
+
+            // The first board is VHHV over VHHV, so the hero covers the middle two
+            // columns of the top two rows, and the bottom row is empty.
+            model.selectAt(1, 0)
+            assertEquals(
+                model.uiState.value.game
+                    ?.heroId,
+                model.uiState.value.selected,
+            )
+
+            model.selectAt(0, 4)
+            assertEquals(
+                "a tap on a free cell should change nothing",
+                model.uiState.value.game
+                    ?.heroId,
+                model.uiState.value.selected,
+            )
+        }
+
+    @Test
     fun `pauses over the board and comes back to it`() =
         runTest(dispatcher) {
             val model = viewModel()
