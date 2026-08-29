@@ -105,6 +105,8 @@ wear/
     ui/                                the Compose screens
   src/main/res/values*/strings.xml     the screen strings, a table per language
   src/main/res/drawable-nodpi/         the block portraits and the two controls
+  src/main/res/mipmap-*/               the adaptive launcher icon
+tools/make-launcher-icons.sh           regenerates that icon from the Zepp OS one
   src/test/                            JVM unit tests, including the par solver
   src/androidTest/                     instrumented tests - what needs a device
 config/detekt/detekt.yml               static-analysis overrides
