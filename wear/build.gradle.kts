@@ -147,10 +147,10 @@ kover {
         }
         verify {
             rule {
-                // What is left is the rule set, the pacing, the record decision,
-                // the round-screen geometry and the view model that drives them -
-                // all plain Kotlin, and none of it with any excuse for being
-                // uncovered. The suite currently sits at 97%.
+                // What is left is the rules, the boards, the clock, the record
+                // decision, the round-screen layout and the view model that
+                // drives them - all plain Kotlin, and none of it with any excuse
+                // for being uncovered. The suite currently sits at 98%.
                 minBound(80)
             }
         }
