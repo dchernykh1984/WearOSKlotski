@@ -56,3 +56,10 @@ fun Modifier.controlClick(
             role = Role.Button,
             onClick = onClick,
         )
+
+/** A width in screen pixels, without a round trip through dp. */
+fun Modifier.absoluteWidth(width: Int): Modifier =
+    this.layout { measurable, constraints ->
+        val placeable = measurable.measure(constraints.copy(minWidth = width, maxWidth = width))
+        layout(placeable.width, placeable.height) { placeable.place(0, 0) }
+    }

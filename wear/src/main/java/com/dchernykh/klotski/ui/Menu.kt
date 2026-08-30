@@ -6,6 +6,8 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicText
+import androidx.compose.foundation.text.TextAutoSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -15,8 +17,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
-import androidx.wear.compose.material3.Text
 import com.dchernykh.klotski.layout.ScreenLayout
 import com.dchernykh.klotski.layout.centeredBox
 import kotlin.math.roundToInt
@@ -26,6 +28,9 @@ import com.dchernykh.klotski.layout.Box as LayoutBox
 // enough to read over the tray without hiding it. Every size comes from the
 // layout, which is scaled from the screen, so the same stack fills the same
 // proportion of a 384px watch and a 466px one.
+
+/** Below this a label is unreadable on a watch, so a tight box clips rather than shrink further. */
+const val MIN_TEXT_PX = 12f
 
 sealed interface MenuItem {
     val height: Int
@@ -92,14 +97,44 @@ fun MenuLine(
     text: String,
 ) {
     Box(modifier = Modifier.absoluteBox(box), contentAlignment = Alignment.Center) {
-        Text(
-            text = text,
-            color = color,
-            fontSize = with(LocalDensity.current) { (box.h * 0.76f).toSp() },
-            maxLines = 1,
-            textAlign = TextAlign.Center,
-        )
+        FittedText(text = text, color = color, boxHeight = box.h, boxWidth = box.w, fraction = 0.76f)
     }
+}
+
+/**
+ * Text sized to fit the box it is in.
+ *
+ * A font size is not a line height: ascenders, descenders and the leading a font
+ * asks for on top of them can want half as much room again as the size does, and
+ * how much more depends on the font and on the language. Asking for a size that is
+ * a fixed share of the box therefore does not fit in the box - it fits sometimes,
+ * and the rest of the time the glyphs are cut off at the bottom, which is what the
+ * hint under the start menu was doing in every language.
+ *
+ * So the share is a ceiling rather than a size: the text is measured, and stepped
+ * down only as far as the real glyphs require.
+ */
+@Composable
+fun FittedText(
+    text: String,
+    color: Color,
+    boxHeight: Int,
+    boxWidth: Int,
+    fraction: Float,
+) {
+    val density = LocalDensity.current
+    val ceilingPx = maxOf(boxHeight * fraction, MIN_TEXT_PX)
+    BasicText(
+        text = text,
+        modifier = Modifier.absoluteWidth(boxWidth),
+        style = TextStyle(color = color, textAlign = TextAlign.Center),
+        maxLines = 1,
+        autoSize =
+            TextAutoSize.StepBased(
+                minFontSize = with(density) { MIN_TEXT_PX.toSp() },
+                maxFontSize = with(density) { ceilingPx.toSp() },
+            ),
+    )
 }
 
 @Composable
@@ -126,12 +161,6 @@ fun MenuButton(
                 ),
         contentAlignment = Alignment.Center,
     ) {
-        Text(
-            text = text,
-            color = ColorText,
-            fontSize = with(LocalDensity.current) { (box.h * 0.46f).toSp() },
-            maxLines = 1,
-            textAlign = TextAlign.Center,
-        )
+        FittedText(text = text, color = ColorText, boxHeight = box.h, boxWidth = box.w, fraction = 0.46f)
     }
 }
