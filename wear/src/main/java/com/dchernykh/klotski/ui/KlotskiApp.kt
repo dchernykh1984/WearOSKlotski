@@ -13,14 +13,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.wear.compose.material3.MaterialTheme
-import androidx.wear.compose.material3.Text
 import com.dchernykh.klotski.KlotskiUiState
 import com.dchernykh.klotski.KlotskiViewModel
 import com.dchernykh.klotski.R
@@ -218,12 +215,12 @@ private fun Counter(
 ) {
     val box = layout.counter
     Box(modifier = Modifier.absoluteBox(box), contentAlignment = Alignment.Center) {
-        Text(
+        FittedText(
             text = (state.game?.moves ?: 0).toString(),
             color = ColorText,
-            fontSize = with(LocalDensity.current) { (box.h * 0.8f).toSp() },
-            maxLines = 1,
-            textAlign = TextAlign.Center,
+            boxHeight = box.h,
+            boxWidth = box.w,
+            fraction = 0.8f,
         )
     }
 }
