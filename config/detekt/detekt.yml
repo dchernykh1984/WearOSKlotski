@@ -9,6 +9,13 @@ complexity:
     functionThreshold: 7
     constructorThreshold: 7
     ignoreAnnotated: ['Composable']
+  TooManyFunctions:
+    # A view model that owns five screens has one small function per thing a
+    # finger can do, and that is the count this trips on. Splitting it would put
+    # one flow in two places and leave them to agree with each other about which
+    # screen is in front, which is worse than a long list of one-line functions
+    # that each say what they are.
+    thresholdInClasses: 18
 
 naming:
   FunctionNaming:

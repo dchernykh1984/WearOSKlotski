@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="level_number">Úroveň %1$d</string>
+    <string name="moves_value">Tahy %1$s</string>
+    <string name="time_value">Čas %1$s</string>
+    <string name="minimum_value">Minimum %1$d</string>
+    <string name="play">Hrát</string>
+    <string name="resume">Pokračovat</string>
+    <string name="restart">Znovu</string>
+    <string name="levels">Úrovně</string>
+    <string name="solved">Vyřešeno!</string>
+    <string name="new_best">Rekord!</string>
+    <string name="next">Další</string>
+    <string name="again">Ještě jednou</string>
+    <string name="back">Zpět</string>
+    <string name="records">Rekordy</string>
+    <string name="hint">Klepni a táhni</string>
+    <string name="placeholder">-</string>
+    <string name="undo">Zpět</string>
+    <string name="menu">Nabídka</string>
+    <string name="block_at">Blok %1$d, %2$d</string>
+</resources>

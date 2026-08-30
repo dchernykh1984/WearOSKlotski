@@ -1,8 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- The screen strings, in the eleven languages the Zepp OS original shipped.
+     Android resolves the watch's locale to the right table on its own, so
+     Kazakh - which Zepp OS had no device-language code for - finally reaches the
+     people it was translated for.
+
+     Adding a language means adding one values-<code>/strings.xml with every key
+     below; Android Lint's MissingTranslation check is an error here, so a table
+     that is short of a key fails the build rather than falling back silently.
+
+     Keep each label short. Nothing on a round watch screen auto-shrinks, so a
+     label that outgrows its button is simply clipped. -->
 <resources>
-    <!-- The name the launcher shows. Deliberately not translated: it is the name
-         the app is published under, the same one the Zepp OS original carries.
-         Marking it so also keeps Android Lint's MissingTranslation check - an
-         error in this module - from demanding it in every values-<code> table. -->
+    <!-- The name the launcher shows, and the title over the start menu. The Zepp
+         OS original carries the same name in every language, so it is not
+         translated and Lint is told as much. -->
     <string name="app_name" translatable="false">Block Escape</string>
+    <!-- A board is known by its number, so the word and the number are two strings joined at the last moment: one thing to translate instead of one per board, and a board added later needs none. -->
+    <string name="level_number">Level %1$d</string>
+    <!-- The value can be the placeholder rather than a number, which is why it is a string: a board with no record yet has no move count to show. -->
+    <string name="moves_value">Moves %1$s</string>
+    <string name="time_value">Time %1$s</string>
+    <!-- The fewest moves the board can possibly be solved in. -->
+    <string name="minimum_value">Minimum %1$d</string>
+    <string name="play">Play</string>
+    <string name="resume">Resume</string>
+    <string name="restart">Restart</string>
+    <string name="levels">Levels</string>
+    <string name="solved">Solved!</string>
+    <string name="new_best">New best!</string>
+    <string name="next">Next</string>
+    <string name="again">Again</string>
+    <string name="back">Back</string>
+    <string name="records">Records</string>
+    <!-- A full sentence under the start menu, so it gets a wider allowance than the words on the buttons. -->
+    <string name="hint">Tap, then swipe</string>
+    <!-- What stands in for a figure there is no value for. -->
+    <string name="placeholder">-</string>
+    <!-- The two round controls beside the board are pictures, so these are all a screen reader has to go on. They are never drawn. -->
+    <string name="undo">Undo</string>
+    <string name="menu">Menu</string>
+    <!-- Which block a finger is on, by column and row counting from one. The tiles are paintings, so a screen reader has nothing else to name them by, and naming them all alike would be worse than not naming them. -->
+    <string name="block_at">Block %1$d, %2$d</string>
 </resources>
